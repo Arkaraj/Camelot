@@ -35,9 +35,8 @@ var rootCmd = &cobra.Command{
 
 Camelot is a CLI tool build in Go that allows users to control google chrome.
 This tool is to open a web search from one's terminal.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	
+	//	Run func
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

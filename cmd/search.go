@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+	"os"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -23,7 +25,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var yt string;
+var provider string;
 
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
@@ -42,9 +44,36 @@ var searchCmd = &cobra.Command{
 			code = []string{"xdg-open"}
 		}
 		queryString := "https://www.google.com/search?q="
-		if(yt == "yes") {
+
+		path, err := cmd.Flags().GetBool("output_path")
+
+		if err != nil {
+			os.Exit(1)
+		} 
+
+		switch provider {
+		case "youtube":
 			queryString = "https://www.youtube.com/results?search_query="
+			break
+		case "amazon":
+			queryString = "https://www.amazon.com/s/?keywords="
+			break
+		case "github":
+			queryString = "https://github.com/search?utf8=✓&q="
+			break
+		case "wikipedia":
+			queryString = "https://en.wikipedia.org/wiki/Special:Search?search="
+			break
+		default:
+			fmt.Println("Opening in Google...")
+			queryString = "https://www.google.com/search?q="
 		}
+
+		if(path) {
+			fmt.Println(queryString+query)
+			return
+		}
+
 		exe := exec.Command(code[0], append(code[1:], queryString+query)...)
 		exe.Start()
 	},
@@ -55,12 +84,10 @@ func init() {
 
 	// Here you will define your flags and configuration settings.
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// searchCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// searchCmd.PersistentFlags().BoolP("youtube", "y", false, "Search keyword in Youtube")
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	searchCmd.PersistentFlags().StringVarP(&yt, "youtube", "y", "", "Pass in keyword to search in youtube")
+	searchCmd.PersistentFlags().StringVarP(&provider, "provider", "p", "", "Pass in provider name (default google)")
+
+	searchCmd.PersistentFlags().BoolP("output_path", "o", false, "View the query path")
+
 }
