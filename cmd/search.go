@@ -23,6 +23,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var yt string;
+
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search <query>",
@@ -39,9 +41,12 @@ var searchCmd = &cobra.Command{
 		default:
 			code = []string{"xdg-open"}
 		}
-		exe := exec.Command(code[0], append(code[1:], "https://www.google.com/search?q="+query)...)
+		queryString := "https://www.google.com/search?q="
+		if(yt == "yes") {
+			queryString = "https://www.youtube.com/results?search_query="
+		}
+		exe := exec.Command(code[0], append(code[1:], queryString+query)...)
 		exe.Start()
-
 	},
 }
 
@@ -57,4 +62,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	searchCmd.PersistentFlags().StringVarP(&yt, "youtube", "y", "", "Pass in keyword to search in youtube")
 }

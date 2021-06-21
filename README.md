@@ -32,6 +32,30 @@ cobra add cmd_name
 
 To create a CLI tool that allows users to web search in google chrome inside terminal.
 
+#### Providers
+
+- Google (default)
+- Amazon
+- bing
+- codepen
+- dribbble
+- duckduckgo
+- facebook
+- flipkart
+- giphy
+- github
+- hackernews
+- instagram
+- linkedin
+- netflix
+- npm, npmsearch
+- reddit
+- spotify
+- stackoverflow
+- twitter
+- wikipedia
+- youtube
+
 ## Commands (Till Now)
 
 ```bash
