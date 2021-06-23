@@ -21,10 +21,10 @@ https://github.com/spf13/cobra
 $ go get -u github.com/spf13/cobra/cobra
 
 # initialize repo with cobra file struct
-cobra init --pkg-name camelot
+$ cobra init --pkg-name camelot
 
 # Add new command
-cobra add cmd_name
+$ cobra add cmd_name
 
 ```
 

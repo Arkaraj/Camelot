@@ -49,6 +49,11 @@ var listOfProviders string = `
 - wikipedia
 - youtube`
 
+/*
+incognito mode
+open -na "Google Chrome" --args --incognito "https://en.wikipedia.org/wiki/Main_Page"
+*/
+
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search <query>",
@@ -56,14 +61,33 @@ var searchCmd = &cobra.Command{
 	Long:  `Searches and opens new tab in Chrome by the entered keyword/query From Terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		query := strings.Join(args[0:], "+")
+
+		if len(query) == 0 {
+			query = "void"
+		}
+
+		incog, _ := cmd.Flags().GetBool("incognito")
+
 		var code []string
 		switch runtime.GOOS {
 		case "darwin":
-			code = []string{"open"}
+			if incog {
+				code = []string{"open", "-na", "Google Chrome", "--args", "--incognito"}
+			} else {
+				code = []string{"open"}
+			}
 		case "windows":
-			code = []string{"cmd", "/c", "start"}
+			if incog {
+				code = []string{"cmd", "/c", "start", "chrome", "--incognito"}
+			} else {
+				code = []string{"cmd", "/c", "start"}
+			}
 		default:
-			code = []string{"xdg-open"}
+			if incog {
+				code = []string{"xdg-open"}
+			} else {
+				code = []string{"xdg-open"}
+			}
 		}
 		// default
 		queryString := "https://www.google.com/search?q="
@@ -177,5 +201,8 @@ func init() {
 
 	// -l will list the providers
 	searchCmd.PersistentFlags().BoolP("list", "l", false, "List all the Providers")
+
+	// opens chrome in incognito mode
+	searchCmd.PersistentFlags().BoolP("incognito", "i", false, "Opens tab in chrome's incognito mode, only works for chrome")
 
 }
