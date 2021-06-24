@@ -28,9 +28,11 @@ $ cobra add cmd_name
 
 ```
 
-### AIM
+## Bookmark DB
 
-To create a CLI tool that allows users to web search in google chrome inside terminal.
+- save in db config disk (no fancy sql, nosql dbs)
+- json format (generate auto id)
+- db.json 
 
 #### Providers
 
@@ -56,11 +58,27 @@ To create a CLI tool that allows users to web search in google chrome inside ter
 - wikipedia
 - youtube
 
-## Commands (Till Now)
+## Commands
 
 ```bash
 
-# search in google by default
+# Search in google by default, opens in default web browser
 $ Camelot search <query> -flags
+
+# flags
+## -l lists out the providers
+$ Camelot search -l
+
+## -p specify the provider
+$ Camelot search -p amazon t-shirt
+
+## -i open chrome in incognito mode (only works for chrome browsers)
+$ Camelot search -i -p duckduckgo secret stuff
+
+# Bookmark (Not implemented yet)
+$ Camelot bookmark www.google.com
+
+## View all Bookmarks
+$ Camelot bookmark --list
 
 ```
