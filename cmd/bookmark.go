@@ -19,20 +19,22 @@ import (
 	"Camelot/cmd/server/models"
 	"fmt"
 	"math/rand"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
 
 var link string
-var id string
+var id int
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func RandomStringId(n int) string {
 	b := make([]byte, n)
 	for i := range b {
-		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+		b[i] = letterBytes[rand.Intn(len(letterBytes))]
 	}
+
 	return string(b)
 }
 
@@ -47,7 +49,9 @@ var bookmarkCmd = &cobra.Command{
 
 		if listFlag {
 
-			links := models.GetBookmarks()
+			path,_ := filepath.Abs("./cmd/server/models/bookmark.json")
+
+			links := models.GetBookmarks(path)
 
 			fmt.Printf("Id \t bookmarked Link \n")
 
@@ -60,35 +64,37 @@ var bookmarkCmd = &cobra.Command{
 
 		url, _ := cmd.Flags().GetString("add")
 
-		id, _ := cmd.Flags().GetString("rmv")
+		id, _ := cmd.Flags().GetInt("rmv")
 
 		if len(url) > 0 {
 
+			path,_ := filepath.Abs("./cmd/server/models/bookmark.json")
+			links := models.GetBookmarks(path)
+
 			list := models.Bookmark{
-				ID:   RandomStringId(6),
+				ID:   len(links) + 1,
 				Link: url,
 			}
 
-			links := models.GetBookmarks()
-
 			links = append(links, list)
 
-			models.CreateBookmark(links)
+			models.CreateBookmark(links, path)
 			fmt.Println("Added To Bookmarks")
 			return
 		}
 
-		if len(id) > 0 {
+		if id != 0 {
 			list := []models.Bookmark{}
 
-			links := models.GetBookmarks()
+			path,_ := filepath.Abs("./cmd/server/models/bookmark.json")
+			links := models.GetBookmarks(path)
 
 			for i := range links {
 				if links[i].ID != id {
 					list = append(list, links[i])
 				}
 			}
-			models.CreateBookmark(list)
+			models.CreateBookmark(list, path)
 			fmt.Println("Removed Bookmark")
 			return
 		}
@@ -104,5 +110,6 @@ func init() {
 	// -l will list the Bookmarks
 	bookmarkCmd.PersistentFlags().BoolP("list", "l", false, "List all the Bookmarked websites")
 
-	bookmarkCmd.PersistentFlags().StringVarP(&id, "rmv", "r", "", "Remove link from bookmarks by entering the Bookmark Id")
+	bookmarkCmd.PersistentFlags().IntVarP(&id, "rmv", "r", 0, "Remove link from bookmarks by entering the Bookmark Id")
+
 }

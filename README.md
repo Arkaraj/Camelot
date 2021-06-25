@@ -2,10 +2,6 @@
 
 A CLI tool for controlling Searches in Google Chrome
 
-### Work on Progress
-
-🚧🚧 Work on Progress 🚧🚧
-
 ## TECH STACK
 
 - Go
@@ -31,12 +27,12 @@ $ cobra add cmd_name
 ## Bookmark DB
 
 - save in db config disk (no fancy sql, nosql dbs)
-- json format (generate random id)
-- bookmark.json 
+- json format (generate auto increment id)
+- bookmark.json
 
-- GET list Gets all the bookmarked website
-- POST add Add to bookmarks
-- DELETE rmv Remove from bookmark
+- -l list Gets all the bookmarked website
+- -a url add Add to bookmarks
+- -r id Remove from bookmark
 
 #### Providers
 
@@ -84,5 +80,11 @@ $ Camelot bookmark www.google.com
 
 ## View all Bookmarks
 $ Camelot bookmark --list
+
+## Add Url to Bookmarks
+$ Camelot bookmark -a https://rxjs.dev/
+
+## Remove Bookmark
+$ Camelot bookmark -r 4
 
 ```
