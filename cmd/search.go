@@ -63,7 +63,8 @@ var searchCmd = &cobra.Command{
 		query := strings.Join(args[0:], "+")
 
 		if len(query) == 0 {
-			query = "void"
+			fmt.Println("Please Enter a Search Term.")
+			return
 		}
 
 		incog, _ := cmd.Flags().GetBool("incognito")

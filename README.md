@@ -31,8 +31,12 @@ $ cobra add cmd_name
 ## Bookmark DB
 
 - save in db config disk (no fancy sql, nosql dbs)
-- json format (generate auto id)
-- db.json 
+- json format (generate random id)
+- bookmark.json 
+
+- GET list Gets all the bookmarked website
+- POST add Add to bookmarks
+- DELETE rmv Remove from bookmark
 
 #### Providers
 
