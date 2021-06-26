@@ -7,6 +7,20 @@ A CLI tool for controlling Searches in Google Chrome
 - Go
 - Cobra (CLI pkg for go)
 
+## Install
+
+```bash
+
+git clone https://github.com/Arkaraj/Camelot.git
+
+cd Camelot
+
+go build .
+
+go install Camelot
+
+```
+
 ## Go Setup
 
 https://github.com/spf13/cobra
@@ -47,8 +61,10 @@ $ cobra add cmd_name
 - giphy
 - github
 - hackernews
+- imdb
 - instagram
 - linkedin
+- medium
 - netflix
 - npm, npmsearch
 - reddit
@@ -78,6 +94,8 @@ $ Camelot search -i -p duckduckgo secret stuff
 # Bookmark (Not implemented yet)
 $ Camelot bookmark www.google.com
 
+### In Camelot Directory
+
 ## View all Bookmarks
 $ Camelot bookmark --list
 
@@ -87,4 +105,11 @@ $ Camelot bookmark -a https://rxjs.dev/
 ## Remove Bookmark
 $ Camelot bookmark -r 4
 
+### Globally,  By Entering Directory path
+$ camelot bookmark -l -d /Users/arkarajghosh/go/src/Camelot
+
 ```
+
+## Requirements
+
+- Go

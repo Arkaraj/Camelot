@@ -14,12 +14,12 @@ type Bookmark struct {
 
 func GetBookmarks(path string) (links []Bookmark) {
 
-	// path := filepath.Join(dir, "bookmark.json")
 	fileBytes, err := ioutil.ReadFile(path)
 
 	if err != nil {
-		fmt.Println("Command only works in Camelot directory")
-		panic(err)
+		fmt.Println("Sorry this Command only works in Camelot directory, else Enter Camelot dir path by -d flag")
+		// panic(err)
+		return
 	}
 
 	err = json.Unmarshal(fileBytes, &links)
@@ -43,6 +43,7 @@ func CreateBookmark(links []Bookmark, path string) {
 	err = ioutil.WriteFile(path, linkBytes, 0644)
 
 	if err != nil {
+		fmt.Println("Sorry this Command only works in Camelot directory")
 		panic(err)
 	}
 }

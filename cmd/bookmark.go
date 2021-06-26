@@ -18,25 +18,14 @@ package cmd
 import (
 	"Camelot/cmd/server/models"
 	"fmt"
-	"math/rand"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
 
 var link string
+var dp string
 var id int
-
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-func RandomStringId(n int) string {
-	b := make([]byte, n)
-	for i := range b {
-		b[i] = letterBytes[rand.Intn(len(letterBytes))]
-	}
-
-	return string(b)
-}
 
 // bookmarkCmd represents the bookmark command
 var bookmarkCmd = &cobra.Command{
@@ -45,13 +34,20 @@ var bookmarkCmd = &cobra.Command{
 	Long:  `Stores and Saves website links`,
 	Run: func(cmd *cobra.Command, args []string) {
 
+		dirpath,_ := filepath.Abs("./cmd/server/models/bookmark.json")
+
+		dp, _ = cmd.Flags().GetString("directorypath")
+
+		if (len(dp) > 0) {
+			dirpath = dp+"/cmd/server/models/bookmark.json"
+		}
+
+		// path,_ := filepath.Abs(dirpath)
+
 		listFlag, _ := cmd.Flags().GetBool("list")
 
 		if listFlag {
-
-			path,_ := filepath.Abs("./cmd/server/models/bookmark.json")
-
-			links := models.GetBookmarks(path)
+			links := models.GetBookmarks(dirpath)
 
 			fmt.Printf("Id \t bookmarked Link \n")
 
@@ -67,9 +63,8 @@ var bookmarkCmd = &cobra.Command{
 		id, _ := cmd.Flags().GetInt("rmv")
 
 		if len(url) > 0 {
-
-			path,_ := filepath.Abs("./cmd/server/models/bookmark.json")
-			links := models.GetBookmarks(path)
+			// path,_ := filepath.Abs(".")
+			links := models.GetBookmarks(dirpath)
 
 			list := models.Bookmark{
 				ID:   len(links) + 1,
@@ -78,7 +73,7 @@ var bookmarkCmd = &cobra.Command{
 
 			links = append(links, list)
 
-			models.CreateBookmark(links, path)
+			models.CreateBookmark(links, dirpath)
 			fmt.Println("Added To Bookmarks")
 			return
 		}
@@ -86,15 +81,15 @@ var bookmarkCmd = &cobra.Command{
 		if id != 0 {
 			list := []models.Bookmark{}
 
-			path,_ := filepath.Abs("./cmd/server/models/bookmark.json")
-			links := models.GetBookmarks(path)
+			// path,_ := filepath.Abs("./bookmark.json")
+			links := models.GetBookmarks(dirpath)
 
 			for i := range links {
 				if links[i].ID != id {
 					list = append(list, links[i])
 				}
 			}
-			models.CreateBookmark(list, path)
+			models.CreateBookmark(list, dirpath)
 			fmt.Println("Removed Bookmark")
 			return
 		}
@@ -109,6 +104,8 @@ func init() {
 
 	// -l will list the Bookmarks
 	bookmarkCmd.PersistentFlags().BoolP("list", "l", false, "List all the Bookmarked websites")
+
+	bookmarkCmd.PersistentFlags().StringVarP(&dp, "directorypath", "d", "", "Enter the directory path where Camelot is")
 
 	bookmarkCmd.PersistentFlags().IntVarP(&id, "rmv", "r", 0, "Remove link from bookmarks by entering the Bookmark Id")
 

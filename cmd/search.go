@@ -38,7 +38,9 @@ var listOfProviders string = `
 - giphy
 - github
 - hackernews
+- imdb
 - instagram
+- medium
 - linkedin
 - netflix
 - npm
@@ -49,11 +51,6 @@ var listOfProviders string = `
 - wikipedia
 - youtube`
 
-/*
-incognito mode
-open -na "Google Chrome" --args --incognito "https://en.wikipedia.org/wiki/Main_Page"
-*/
-
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search <query>",
@@ -61,11 +58,6 @@ var searchCmd = &cobra.Command{
 	Long:  `Searches and opens new tab in Chrome by the entered keyword/query From Terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		query := strings.Join(args[0:], "+")
-
-		if len(query) == 0 {
-			fmt.Println("Please Enter a Search Term.")
-			return
-		}
 
 		incog, _ := cmd.Flags().GetBool("incognito")
 
@@ -105,6 +97,12 @@ var searchCmd = &cobra.Command{
 			fmt.Println(listOfProviders)
 			return
 		}
+
+		if len(query) == 0 {
+			fmt.Println("Please Enter a Search Term.")
+			return
+		}
+
 		prvd, _ := cmd.Flags().GetString("provider")
 		if len(prvd) > 0 {
 			switch provider {
@@ -144,8 +142,14 @@ var searchCmd = &cobra.Command{
 			case "hackernews":
 				queryString = "https://hn.algolia.com/?q="
 				break
+			case "imdb":
+				queryString = "https://www.imdb.com/find?q="
+				break
 			case "instagram":
 				queryString = "https://www.instagram.com/explore/tags/"
+				break
+			case "medium":
+				queryString = "https://medium.com/search?q="
 				break
 			case "linkedin":
 				queryString = "https://www.linkedin.com/search/results/all/?keywords="
