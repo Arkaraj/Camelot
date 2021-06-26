@@ -30,17 +30,12 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "camelot",
-	Short: "A CLI tool for searching, opening tabs in chrome",
+	Short: "A CLI tool for searching the web and bookmarking sites.",
 	Long: `Camelot:
 
-Camelot is a CLI tool build in Go that allows users to control google chrome.
-This tool is to open a web search from one's terminal.`,
-	
-	//	Run func
+Camelot is a CLI tool build in Go that allows users to web search across 20+ providers and bookmark sites.
+Allows Web search from your terminal, Opens Tab in your Default Browser.`,
 }
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }
@@ -48,35 +43,25 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.camelot.yaml)")
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-// initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	if cfgFile != "" {
-		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
 		// Find home directory.
 		home, err := homedir.Dir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".camelot" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".camelot")
 	}
 
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
+	viper.AutomaticEnv() 
+	
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}

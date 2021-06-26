@@ -51,10 +51,12 @@ var listOfProviders string = `
 - wikipedia
 - youtube`
 
+var rawUrl string = ""
+
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search <query>",
-	Short: "Google Searches the given query from terminal",
+	Short: "Searches the given query in google(by default), providers from terminal",
 	Long:  `Searches and opens new tab in Chrome by the entered keyword/query From Terminal.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		query := strings.Join(args[0:], "+")
@@ -98,7 +100,7 @@ var searchCmd = &cobra.Command{
 			return
 		}
 
-		if len(query) == 0 {
+		if len(query) == 0 && len(rawUrl) == 0 {
 			fmt.Println("Please Enter a Search Term.")
 			return
 		}
@@ -188,6 +190,13 @@ var searchCmd = &cobra.Command{
 			return
 		}
 
+		rawUrl, _ = cmd.Flags().GetString("url")
+
+		if len(rawUrl) > 0 {
+			queryString = rawUrl
+			query = ""
+		}
+
 		exe := exec.Command(code[0], append(code[1:], queryString+query)...)
 		exe.Start()
 	},
@@ -196,11 +205,9 @@ var searchCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(searchCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// searchCmd.PersistentFlags().BoolP("youtube", "y", false, "Search keyword in Youtube")
-
 	searchCmd.PersistentFlags().StringVarP(&provider, "provider", "p", "", "Pass in provider name (default google)")
+
+	searchCmd.PersistentFlags().StringVarP(&rawUrl, "url", "u", "", "Pass in the web url")
 
 	searchCmd.PersistentFlags().BoolP("output_path", "o", false, "View the query path")
 

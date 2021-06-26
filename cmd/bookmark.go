@@ -30,7 +30,7 @@ var id int
 // bookmarkCmd represents the bookmark command
 var bookmarkCmd = &cobra.Command{
 	Use:   "bookmark",
-	Short: "Bookmark website links",
+	Short: "Bookmark's any website links",
 	Long:  `Stores and Saves website links`,
 	Run: func(cmd *cobra.Command, args []string) {
 
