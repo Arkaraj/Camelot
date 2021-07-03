@@ -25,7 +25,7 @@ go install Camelot
 
 ```
 
-< ## Go Setup
+## Go Setup
 
 https://github.com/spf13/cobra
 
@@ -60,6 +60,7 @@ $ cobra add cmd_name
 - Amazon
 - bing
 - codepen
+- crunchyroll
 - dribbble
 - duckduckgo
 - facebook
@@ -74,11 +75,19 @@ $ cobra add cmd_name
 - netflix
 - npm, npmsearch
 - reddit
+- soundcloud
 - spotify
 - stackoverflow
+- steam
+- pinterest
+- quora
+- twitchtv
 - twitter
+- uwatch
 - wikipedia
+- yahoo
 - youtube
+- 9anime
 
 ## Commands
 
@@ -124,4 +133,4 @@ $ camelot bookmark -l -d /Users/arkarajghosh/go/src/Camelot
 
 ## Requirements
 
-- Go
+- Go/Golang

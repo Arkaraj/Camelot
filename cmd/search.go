@@ -31,6 +31,7 @@ var listOfProviders string = `
 - Amazon
 - bing
 - codepen
+- crunchyroll
 - dribbble
 - duckduckgo
 - facebook
@@ -40,16 +41,24 @@ var listOfProviders string = `
 - hackernews
 - imdb
 - instagram
-- medium
 - linkedin
+- medium
 - netflix
 - npm
 - reddit
+- soundcloud
 - spotify
 - stackoverflow
+- steam
+- pinterest
+- quora
+- twitchtv
 - twitter
+- uwatch
 - wikipedia
-- youtube`
+- yahoo
+- youtube
+- 9anime`
 
 var rawUrl string = ""
 
@@ -126,6 +135,9 @@ var searchCmd = &cobra.Command{
 			case "codepen":
 				queryString = "http://codepen.io/search/pens?q="
 				break
+			case "crunchyroll":
+				queryString = "https://www.crunchyroll.com/search?q="
+				break
 			case "dribbble":
 				queryString = "https://dribbble.com/search?q="
 				break
@@ -165,17 +177,41 @@ var searchCmd = &cobra.Command{
 			case "reddit":
 				queryString = "https://www.reddit.com/search?q="
 				break
+			case "soundcloud":
+				queryString = "https://soundcloud.com/search?q="
+				break
 			case "spotify":
 				queryString = "https://play.spotify.com/search/"
 				break
 			case "stackoverflow":
 				queryString = "https://stackoverflow.com/search?q="
 				break
+			case "steam":
+				queryString = "https://store.steampowered.com/search/?term="
+				break
+			case "pinterest":
+				queryString = "https://www.pinterest.com/search/pins/?q="
+				break
+			case "quora":
+				queryString = "https://www.quora.com/search?q="
+				break
+			case "twitchtv":
+				queryString = "https://www.twitch.tv/search?query="
+				break
 			case "twitter":
 				queryString = "https://twitter.com/search?q="
 				break
+			case "uwatch":
+				queryString = "https://www.uwatchfree.as/?s="
+				break
 			case "wikipedia":
 				queryString = "https://en.wikipedia.org/wiki/Special:Search?search="
+				break
+			case "yahoo":
+				queryString = "https://search.yahoo.com/search?p="
+				break
+			case "9anime":
+				queryString = "https://9anime.to/search?keyword="
 				break
 			default:
 				// os error stating no such providers
